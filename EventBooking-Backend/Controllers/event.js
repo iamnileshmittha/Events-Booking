@@ -142,9 +142,168 @@ async function handleGetEventById(req, res) {
   }
 }
 
+async function handleUpdateEvent(req, res) {
+  try {
+    console.log("=== Updating Event ===");
+    const { id } = req.params;
+    
+    const {
+      title,
+      location,
+      description,
+      startDate,
+      endDate,
+      bookingStartDate,
+      bookingEndDate,
+    } = req.body;
+
+    // Validate required fields
+    if (!title || !location || !startDate || !endDate || !bookingStartDate || !bookingEndDate) {
+      return res.status(400).json({
+        success: false,
+        message: "Missing required fields"
+      });
+    }
+
+    const updateData = {
+      title,
+      location,
+      description,
+      startDate,
+      endDate,
+      bookingStartDate,
+      bookingEndDate,
+    };
+
+    // Only update image if a new one is provided
+    if (req.file) {
+      updateData.image = req.file.filename;
+    }
+
+    const updatedEvent = await Event.findByIdAndUpdate(
+      id,
+      updateData,
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedEvent) {
+      return res.status(404).json({
+        success: false,
+        message: "Event not found"
+      });
+    }
+
+    console.log("✅ Event updated successfully:", updatedEvent);
+
+    res.status(200).json({
+      success: true,
+      message: "Event updated successfully",
+      event: updatedEvent
+    });
+  } catch (error) {
+    console.error("❌ Error updating event:", error);
+    
+    if (error.name === 'ValidationError') {
+      return res.status(400).json({
+        success: false,
+        message: "Validation error",
+        errors: Object.values(error.errors).map(err => err.message)
+      });
+    }
+
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+      error: error.message
+    });
+  }
+}
+
+async function handleDeleteEvents(req, res) {
+  try {
+    console.log("=== Deleting Events ===");
+    const { eventIds } = req.body;
+
+    if (!eventIds || !Array.isArray(eventIds) || eventIds.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: "No event IDs provided"
+      });
+    }
+
+    console.log("Event IDs to delete:", eventIds);
+
+    const result = await Event.deleteMany({ _id: { $in: eventIds } });
+
+    console.log(`✅ Deleted ${result.deletedCount} events`);
+
+    res.status(200).json({
+      success: true,
+      message: `Successfully deleted ${result.deletedCount} event(s)`,
+      deletedCount: result.deletedCount
+    });
+  } catch (error) {
+    console.error("❌ Error deleting events:", error);
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+      error: error.message
+    });
+  }
+}
+
+async function handleGetEventStats(req, res) {
+  try {
+    console.log("=== Fetching Event Statistics ===");
+    
+    const now = new Date();
+    
+    // Total events
+    const totalEvents = await Event.countDocuments();
+    
+    // Upcoming events (start date in future)
+    const upcomingEvents = await Event.countDocuments({
+      startDate: { $gt: now }
+    });
+    
+    // Current/ongoing events (start date <= now AND end date >= now)
+    const currentEvents = await Event.countDocuments({
+      startDate: { $lte: now },
+      endDate: { $gte: now }
+    });
+    
+    // Completed events (end date in past)
+    const completedEvents = await Event.countDocuments({
+      endDate: { $lt: now }
+    });
+    
+    console.log("✅ Stats:", { totalEvents, upcomingEvents, currentEvents, completedEvents });
+    
+    res.status(200).json({
+      success: true,
+      stats: {
+        total: totalEvents,
+        upcoming: upcomingEvents,
+        current: currentEvents,
+        completed: completedEvents
+      }
+    });
+  } catch (error) {
+    console.error("❌ Error fetching event stats:", error);
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+      error: error.message
+    });
+  }
+}
+
 module.exports = {
   handleCreateNewEvent,
   handleGetAllEvents,
-  handleGetEventById
+  handleGetEventById,
+  handleUpdateEvent,
+  handleDeleteEvents,
+  handleGetEventStats
 };
 
