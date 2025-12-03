@@ -1,0 +1,16 @@
+# Node
+node_modules/
+
+# React build
+event-frontend/build/
+
+# Backend dist
+event-backend/dist/
+
+# Env files
+.env
+event-frontend/.env
+event-backend/.env
+
+# Logs
+*.log

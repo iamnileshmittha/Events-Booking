@@ -1,0 +1,50 @@
+[
+  {
+    "id": 8,
+    "product_name": "Chickpea Flour",
+    "product_type": "Food - Baking",
+    "Price": 3.29
+  },
+  {
+    "id": 9,
+    "product_name": "Vegetable Lasagna",
+    "product_type": "Food - Frozen Foods",
+    "Price": 6.99
+  },
+  {
+    "id": 10,
+    "product_name": "Portable Bluetooth Headphones",
+    "product_type": "Audio",
+    "Price": 79.99
+  },
+  {
+    "id": 11,
+    "product_name": "Ginger Snaps",
+    "product_type": "Food - Confectionery",
+    "Price": 2.79
+  },
+  {
+    "id": 12,
+    "product_name": "Stainless Steel Grater",
+    "product_type": "Kitchen",
+    "Price": 14.99
+  },
+  {
+    "id": 13,
+    "product_name": "Smart Wi-Fi Light Bulbs",
+    "product_type": "Smart Home",
+    "Price": 19.99
+  },
+  {
+    "id": 14,
+    "product_name": "Indoor Grill",
+    "product_type": "Kitchen",
+    "Price": 59.99
+  },
+  {
+    "id": 15,
+    "product_name": "Reusable Snack Bags",
+    "product_type": "Kitchen",
+    "Price": 14.99
+  }
+]

@@ -1,0 +1,62 @@
+const express = require("express");
+const cors = require("cors");
+
+const cookieParser = require('cookie-parser');
+
+const productRouter = require("./Routes/event.js");
+const userrouter = require("./Routes/user.js");
+const ticketypeRouter = require("./Routes/ticketype.js");
+const path = require('path');
+const {connectToMongoDB} =require("./config.js");
+
+const app = express();
+
+app.use(cookieParser());
+
+// Mongo DB connection 
+connectToMongoDB("mongodb://127.0.0.1:27017/EventBooking");
+
+// Allow requests from your frontend
+app.use(cors({
+  origin: "http://localhost:3000", // React app URL
+  credentials: true
+}));
+
+app.use(express.json());
+app.use(express.urlencoded({extended: false}));
+app.use('/uploads', express.static('uploads'));
+
+// Test route to verify server is working
+app.get("/test", (req, res) => {
+  res.json({ message: "Server is running!", timestamp: new Date().toISOString() });
+});
+
+// Routes
+app.use("/api/user/",userrouter);
+app.use("/api/event/",productRouter);
+app.use("/api/ticketype/",ticketypeRouter);
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error("Global error handler:", err);
+  res.status(500).json({ 
+    success: false,
+    message: "Something went wrong!",
+    error: err.message 
+  });
+});
+
+// 404 handler
+app.use((req, res) => {
+  res.status(404).json({ 
+    success: false,
+    message: "Route not found" 
+  });
+});
+
+app.listen(8000,()=>{
+    console.log("server is started!!!!!!");
+    console.log("Server running on http://localhost:8000");
+    console.log("Test endpoint: http://localhost:8000/test");
+});
+
