@@ -19,7 +19,7 @@ function Dashboard() {
   const fetchEventStats = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("http://localhost:8000/api/event/stats/dashboard");
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/event/stats/dashboard`);
       if (response.data.success) {
         setEventStats(response.data.stats);
         console.log("✅ Event stats fetched:", response.data.stats);

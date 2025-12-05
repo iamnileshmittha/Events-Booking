@@ -14,11 +14,12 @@ const app = express();
 app.use(cookieParser());
 
 // Mongo DB connection 
-connectToMongoDB("mongodb://127.0.0.1:27017/EventBooking");
+connectToMongoDB(process.env.MONGO_URI);
 
 // Allow requests from your frontend
 app.use(cors({
-  origin: "http://localhost:3000", // React app URL
+  origin:  // React app URL
+  "https://events-booking-liard.vercel.app/",
   credentials: true
 }));
 
@@ -55,8 +56,6 @@ app.use((req, res) => {
 });
 
 app.listen(8000,()=>{
-    console.log("server is started!!!!!!");
-    console.log("Server running on http://localhost:8000");
-    console.log("Test endpoint: http://localhost:8000/test");
+
 });
 

@@ -72,7 +72,7 @@ function RegisterForm({ onClose, onBackToLogin }) {
           formData.append("ProfileImage", profileImage);
         }
 
-        const response = await axios.post("http://localhost:8000/api/user/register", formData, {
+        const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/user/register`, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },

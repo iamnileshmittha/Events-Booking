@@ -36,7 +36,7 @@ function LoginForm({ onClose, onSwitch, onLoginSuccess }) {
 
     if (Object.keys(newErrors).length === 0) {
       try {
-        const response = await axios.post("http://localhost:8000/api/user/login", 
+        const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/user/login`, 
           {
           Email: email,
           Password: password

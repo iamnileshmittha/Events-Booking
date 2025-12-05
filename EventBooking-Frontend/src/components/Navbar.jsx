@@ -18,7 +18,7 @@ function Navbar() {
 
   const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
   const handleLogout = async() => {
-    await axios.get("http://localhost:8000/api/user/logout", {
+    await axios.get(`${process.env.REACT_APP_API_URL}/api/user/logout`, {
       withCredentials: true
     });
     setIsLoggedIn(false);
@@ -29,7 +29,7 @@ function Navbar() {
   useEffect(() => {
     const checkLogin = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/api/user/check-auth", {
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/user/check-auth`, {
           withCredentials: true
         });
   
@@ -74,7 +74,7 @@ function Navbar() {
               <div className="user-icon-container" onClick={toggleDropdown}>
                 {user?.ProfileImage ? (
                   <img 
-                    src={`http://localhost:8000/uploads/${user.ProfileImage}`} 
+                    src={`${process.env.REACT_APP_API_URL}/uploads/${user.ProfileImage}`} 
                     alt="Profile" 
                     className="profile-image"
                   />
@@ -120,7 +120,7 @@ function Navbar() {
           onLoginSuccess={async () => {
             setShowLoginForm(false);
             // Refresh user data
-            const response = await axios.get("http://localhost:8000/api/user/check-auth", {
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/user/check-auth`, {
               withCredentials: true
             });
             if (response.data.loggedIn) {

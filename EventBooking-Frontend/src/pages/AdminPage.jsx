@@ -26,7 +26,7 @@ function AdminPage() {
   const fetchEvents = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("http://localhost:8000/api/event");
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/event`);
       
       if (response.data.success) {
         setEvents(response.data.events);
@@ -79,7 +79,7 @@ function AdminPage() {
     if (!confirmDelete) return;
 
     try {
-      const response = await axios.delete("http://localhost:8000/api/event", {
+      const response = await axios.delete(`${process.env.REACT_APP_API_URL}/api/event`, {
         data: { eventIds: selectedEvents }
       });
 
@@ -103,7 +103,7 @@ function AdminPage() {
     if (!confirmDelete) return;
 
     try {
-      const response = await axios.delete("http://localhost:8000/api/event", {
+      const response = await axios.delete(`${process.env.REACT_APP_API_URL}/api/event`, {
         data: { eventIds: [eventId] }
       });
 
@@ -135,7 +135,7 @@ function AdminPage() {
     
     // Fetch tickets for this event
     try {
-      const response = await axios.get(`http://localhost:8000/api/ticketype/event/${event._id}`);
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/ticketype/event/${event._id}`);
       if (response.data.success && response.data.tickets.length > 0) {
         const existingTickets = response.data.tickets.map(ticket => ({
           _id: ticket._id,
@@ -272,11 +272,11 @@ const handleSubmit = async (e) => {
   try {
     let response;
     if (isEditMode) {
-      response = await axios.put("http://localhost:8000/api/ticketype/update", {
+      response = await axios.put(`${process.env.REACT_APP_API_URL}/api/ticketype/update`, {
         tickets: ticketsWithEventId,
       });
     } else {
-      response = await axios.post("http://localhost:8000/api/ticketype", {
+      response = await axios.post(`${process.env.REACT_APP_API_URL}/api/ticketype`, {
         tickets: ticketsWithEventId,
       });
     }
@@ -350,7 +350,7 @@ const handleEventSubmit = async (e) => {
 
     let response;
     if (isEditMode && editingEventId) {
-      response = await axios.put(`http://localhost:8000/api/event/${editingEventId}`, formData, {
+      response = await axios.put(`${process.env.REACT_APP_API_URL}/api/event/${editingEventId}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -359,7 +359,7 @@ const handleEventSubmit = async (e) => {
       alert("Event updated successfully! You can now edit tickets.");
       setActiveTab("ticket");
     } else {
-      response = await axios.post("http://localhost:8000/api/event", formData, {
+      response = await axios.post(`${process.env.REACT_APP_API_URL}/api/event`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

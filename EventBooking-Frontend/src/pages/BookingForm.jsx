@@ -86,7 +86,7 @@ function BookingForm() {
         <div className="left-section">
           <div className="bookingimgdata">
             <img
-              src={selectedEvent ? `http://localhost:8000/uploads/${selectedEvent.image}` : galleryImg}
+              src={selectedEvent ? `${process.env.REACT_APP_API_URL}/uploads/${selectedEvent.image}` : galleryImg}
               alt={selectedEvent ? selectedEvent.title : "Event"}
               className="bookingmain-image"
             />

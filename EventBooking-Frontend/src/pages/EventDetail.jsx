@@ -38,7 +38,7 @@ function EventDetail() {
     const fetchEvent = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`http://localhost:8000/api/event/${id}`);
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/event/${id}`);
         if (response.data.success) {
           setEvent(response.data.event);
         } else {
@@ -60,7 +60,7 @@ function EventDetail() {
       if (!id) return;
       try {
         setTicketsLoading(true);
-        const res = await axios.get(`http://localhost:8000/api/ticketype/event/${id}`);
+        const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/ticketype/event/${id}`);
         if (res.data.success) {
           setTickets(res.data.tickets || []);
         } else {
@@ -205,7 +205,7 @@ function EventDetail() {
         <div className="detail-grid">
           <div className="left-section">
             <img
-              src={`http://localhost:8000/uploads/${event.image}`}
+              src={`${process.env.REACT_APP_API_URL}/uploads/${event.image}`}
               alt={event.title}
               className="main-image"
             />

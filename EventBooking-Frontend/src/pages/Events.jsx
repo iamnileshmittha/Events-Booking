@@ -16,7 +16,7 @@ const EventsPage = () => {
     const fetchEvents = async () => {
       try {
         setLoading(true);
-        const response = await axios.get("http://localhost:8000/api/event");
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/event`);
         if (response.data.success) {
           setEvents(response.data.events);
           console.log(response.data.events);
@@ -73,7 +73,7 @@ const EventsPage = () => {
                   style={{ cursor: "pointer" }}
                 >
                   <DestinationCard
-                    img={`http://localhost:8000/uploads/${event.image}`}
+                    img={`${process.env.REACT_APP_API_URL}/uploads/${event.image}`}
                     name={event.title}
                     id={event._id}
                   />

@@ -22,7 +22,7 @@ function UserManagement() {
   const fetchUsers = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("http://localhost:8000/api/user/all");
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/user/all`);
       
       if (response.data.success) {
         setUsers(response.data.users);
@@ -68,7 +68,7 @@ function UserManagement() {
     if (!confirmDelete) return;
 
     try {
-      const response = await axios.delete("http://localhost:8000/api/user", {
+      const response = await axios.delete(`${process.env.REACT_APP_API_URL}/api/user`, {
         data: { userIds: selectedUsers }
       });
 
@@ -91,7 +91,7 @@ function UserManagement() {
     if (!confirmDelete) return;
 
     try {
-      const response = await axios.delete("http://localhost:8000/api/user", {
+      const response = await axios.delete(`${process.env.REACT_APP_API_URL}/api/user`, {
         data: { userIds: [userId] }
       });
 
@@ -128,7 +128,7 @@ function UserManagement() {
       }
 
       const response = await axios.put(
-        `http://localhost:8000/api/user/${editingUser._id}`,
+        `${process.env.REACT_APP_API_URL}/api/user/${editingUser._id}`,
         formData,
         {
           headers: {
@@ -281,7 +281,7 @@ function UserManagement() {
                       <td>
                         {user.ProfileImage ? (
                           <img 
-                            src={`http://localhost:8000/uploads/${user.ProfileImage}`} 
+                            src={`${process.env.REACT_APP_API_URL}/uploads/${user.ProfileImage}`} 
                             alt={user.FullName}
                             style={{ width: "40px", height: "40px", borderRadius: "50%", objectFit: "cover" }}
                           />

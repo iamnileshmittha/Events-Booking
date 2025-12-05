@@ -17,7 +17,7 @@ const EventCalendar = ({ onBookTicket }) => {
 
   const fetchEvents = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/api/event");
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/event`);
       if (response.data.success) {
         setEvents(response.data.events);
       }
@@ -68,7 +68,7 @@ const EventCalendar = ({ onBookTicket }) => {
 
       try {
         const response = await axios.get(
-          `http://localhost:8000/api/ticketype/event/${eventsOnDate[0]._id}`
+          `${process.env.REACT_APP_API_URL}/api/ticketype/event/${eventsOnDate[0]._id}`
         );
         if (response.data.success) {
           setTickets(response.data.tickets);
