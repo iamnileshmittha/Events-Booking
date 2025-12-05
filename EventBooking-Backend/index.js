@@ -16,12 +16,19 @@ app.use(cookieParser());
 // Mongo DB connection 
 connectToMongoDB(process.env.MONGO_URI);
 
-// Allow requests from your frontend
-app.use(cors({
-  origin:  // React app URL
-  "https://events-booking-liard.vercel.app/",
-  credentials: true
-}));
+const cors = require("cors");
+
+app.use(
+  cors({
+    origin: [
+      "http://localhost:3000",
+      "https://events-booking-liard.vercel.app"
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true
+  })
+);
+
 
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
